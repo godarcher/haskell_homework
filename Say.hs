@@ -1,6 +1,5 @@
 module Say where
 
-
 say :: Integer -> String
 say  0 = "zero"
 say  1 = "one"
@@ -14,7 +13,7 @@ say  8 = "eight"
 say 11 = "eleven"
 say 12 = "twelve"
 say 13 = "thirteen"
-say 14 = "fourteem"
+say 14 = "fourteen"
 say 15 = "fifteen"
 say 16 = "sixteen"
 say 17 = "seventeen"
@@ -28,9 +27,19 @@ say 60 = "sixty"
 say 70 = "seventy"
 say 80 = "eighty"
 say 90 = "ninety"
+-- say x 
+--     | x < 100 = say(x - (10 * (div x 10)))
+--     | x < 1000 = say(x - (100 * (div x 100)))
+--     | x < 10000 = say(x - (1000 * (div x 1000)))
+--     | x < 100000 = say(x - (1000 *  (div x 1000))) 
+--     | x < 1000000 = say(x - (100000 * (div x 100000)))
 say x 
-    | x < 100 = say(x -(mod x 10)) ++" "++ say(mod x 10)
-    | x < 1000 = say((div x 100)) ++ " hundred and " ++ say(mod x 100)
-    | x < 10000 = say ((div x 1000)) ++ " thousand " ++ say(mod x 1000)
-    | x < 100000 = say((div x 1000)) ++ say(mod x 10000)
-    | x < 1000000 = say((div x 100000)) ++ " hundred " ++ say(mod x 100000)
+    | x < 100 = say(x - mod x 10) ++ " " ++ say(x - (10 * (div x 10)))
+    | x < 1000 = say((div x 100)) ++ " hundred " ++ say(x - (100 * (div x 100)))
+    | x < 10000 = say ((div x 1000)) ++ " thousand " ++ say(x - (1000 * (div x 1000)))
+    | x < 100000 = say((div x 1000)) ++ " thousand " ++ say(x - (1000 *  (div x 1000))) 
+    | x < 1000000 = say((div x 100000)) ++ " hundred " ++ say(x - (100000 * (div x 100000)))
+
+-- 434953
+-- four hundred rest 34953
+-- thirtyfour thousand 34953 - 1000 * 34 = 953
