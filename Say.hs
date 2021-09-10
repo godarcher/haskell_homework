@@ -11,6 +11,7 @@ say  6 = "six"
 say  7 = "seven"
 say  8 = "eight"
 say  9 = "nine"
+say 10 = "ten"
 say 11 = "eleven"
 say 12 = "twelve"
 say 13 = "thirteen"
@@ -28,13 +29,14 @@ say 60 = "sixty"
 say 70 = "seventy"
 say 80 = "eighty"
 say 90 = "ninety"
+say 100 = "hundred"
+say 1000 = "thousand"
 say x 
-    -- We developed an algorithms that uses the fact that integers are rounded down to -
+    -- We developed an algorithms that uses the fact that integers are rounded down to
     -- recurrently translate the number while using "REST" parts
      | x < 100 = say(x - mod x 10) ++ " " ++ say(x - (10 * div x 10)) 
      | x < 1000 = say(div x 100) ++ " hundred " ++ say(x - (100 * div x 100))
-     | x < 10000 = say(div x 1000) ++ " thousand " ++ say(x - (1000 * div x 1000))
-     | x < 100000 = say(div x 1000)++ " thousand " ++ say(x - (1000 * div x 1000))
+     | x <= 100000 = say(div x 1000) ++ if (x-(1000 * div x 1000)) > 0 then " thousand " ++  say(x - (1000 * div x 1000)) else " thousand"
      | x < 1000000 = say(div x 100000) ++ " hundred " ++ say(x - (100000 * div x 100000))
 
 -- DEBUG MODE WHICH GIVES REST VALUES
