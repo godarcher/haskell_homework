@@ -49,8 +49,9 @@ say x
         else if (x-(1000 * div x 1000)) > 0 then " thousand and " ++  say(x - (1000 * div x 1000)) 
         else " thousand"
 
-    -- big numbers are very basic once again and follow the basic rule withoud ands because there are no millions
-     | x < 1000000 = say(div x 100000) ++ " hundred " ++ say(x - (100000 * div x 100000))
+    -- big numbers get an extra end when the REST is more then thousand (two hundred and nine thousand)
+     | x < 1000000 = say(div x 100000) ++ " hundred " 
+         ++ if (x-(100000 * div x 100000)) >= 1000 then "and " ++ say(x - (100000 * div x 100000)) else say(x - (100000 * div x 100000))
 
 -- DEBUG MODE WHICH GIVES REST VALUES
 -- say x 
