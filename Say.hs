@@ -24,6 +24,7 @@ say 19 = "nineteen"
 say 20 = "twenty"
 say 30 = "thirty"
 say 40 = "fourty"
+say 42 = "the answer to life, the universe, and everything"
 say 50 = "fifty"
 say 60 = "sixty"
 say 70 = "seventy"
@@ -42,7 +43,7 @@ say x
 -- DEBUG MODE WHICH GIVES REST VALUES
 -- say x 
 --     | x < 100 = say(x - mod x 10) ++" " ++ say(x - (10 * (div x 10))) 
---     | x < 1000 = say((div x 100)) ++ " hundred " ++ " REST2 " ++ show(x - (100 * (div x 100))) ++ say(x - (100 * (div x 100)))
+--     | x < 1000 = say((div sx 100)) ++ " hundred " ++ " REST2 " ++ show(x - (100 * (div x 100))) ++ say(x - (100 * (div x 100)))
 --     | x < 10000 = say ((div x 1000)) ++ " thousand "   ++ " REST3 " ++ show(x - (1000 * (div x 1000))) ++ say(x - (1000 * (div x 1000)))
 --     | x < 100000 = say((div x 1000))++ " thousand " ++ " REST4 " ++ show(x - (1000 * (div x 1000)))  ++ say(x - (1000 *  (div x 1000)))
 --     | x < 1000000 = say((div x 100000)) ++ " hundred "  ++ " REST5 " ++ show(x - (100000 * (div x 100000))) ++ say(x - (100000 * (div x 100000)))
