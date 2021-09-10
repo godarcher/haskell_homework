@@ -29,14 +29,15 @@ say 70 = "seventy"
 say 80 = "eighty"
 say 90 = "ninety"
 say x 
-     | x < 100 = say(x - mod x 10) ++" " ++ say(x - (10 * (div x 10))) 
-     | x < 1000 = say((div x 100)) ++ " hundred " ++ " REST2 " ++ show(x - (100 * (div x 100))) ++ say(x - (100 * (div x 100)))
-     | x < 10000 = say ((div x 1000)) ++ " thousand "   ++ " REST3 " ++ show(x - (1000 * (div x 1000))) ++ say(x - (1000 * (div x 1000)))
-     | x < 100000 = say((div x 1000))++ " thousand " ++ " REST4 " ++ show(x - (1000 * (div x 1000)))  ++ say(x - (1000 *  (div x 1000)))
-     | x < 1000000 = say((div x 100000)) ++ " hundred "  ++ " REST5 " ++ show(x - (100000 * (div x 100000))) ++ say(x - (100000 * (div x 100000)))
+    -- We developed an algorithms that uses the fact that integers are rounded down to -
+    -- recurrently translate the number while using "REST" parts
+     | x < 100 = say(x - mod x 10) ++ " " ++ say(x - (10 * div x 10)) 
+     | x < 1000 = say(div x 100) ++ " hundred " ++ say(x - (100 * div x 100))
+     | x < 10000 = say(div x 1000) ++ " thousand " ++ say(x - (1000 * div x 1000))
+     | x < 100000 = say(div x 1000)++ " thousand " ++ say(x - (1000 * div x 1000))
+     | x < 1000000 = say(div x 100000) ++ " hundred " ++ say(x - (100000 * div x 100000))
 
-
--- DEBUG MODE
+-- DEBUG MODE WHICH GIVES REST VALUES
 -- say x 
 --     | x < 100 = say(x - mod x 10) ++" " ++ say(x - (10 * (div x 10))) 
 --     | x < 1000 = say((div x 100)) ++ " hundred " ++ " REST2 " ++ show(x - (100 * (div x 100))) ++ say(x - (100 * (div x 100)))
