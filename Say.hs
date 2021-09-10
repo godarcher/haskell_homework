@@ -36,7 +36,7 @@ say x
     -- We developed an algorithms that uses the fact that integers are rounded down to
     -- recurrently translate the number while using "REST" parts
      | x < 100 = say(x - mod x 10) ++ " " ++ say(x - (10 * div x 10)) 
-     | x < 1000 = say(div x 100) ++ " hundred " ++ say(x - (100 * div x 100))
+     | x < 1000 = say(div x 100) ++ if (x-(100 * div x 100)) > 0 then " hundred " ++ say(x - (100 * div x 100)) else " hundred"
      | x <= 100000 = say(div x 1000) ++ if (x-(1000 * div x 1000)) > 0 then " thousand " ++  say(x - (1000 * div x 1000)) else " thousand"
      | x < 1000000 = say(div x 100000) ++ " hundred " ++ say(x - (100000 * div x 100000))
 
