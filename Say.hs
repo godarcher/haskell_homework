@@ -33,11 +33,23 @@ say 90 = "ninety"
 say 100 = "hundred"
 say 1000 = "thousand"
 say x 
-    -- We developed an algorithms that uses the fact that integers are rounded down to
+    -- We developed an algorithm that uses the fact that integers are rounded down to
     -- recurrently translate the number while using "REST" parts
+
+    -- if smaller then 100 (ex 73) we do 73 - 73 mod 10 = 70 then return REST 3
      | x < 100 = say(x - mod x 10) ++ " " ++ say(x - (10 * div x 10)) 
-     | x < 1000 = say(div x 100) ++ if (x-(100 * div x 100)) > 0 then " hundred and " ++ say(x - (100 * div x 100)) else " hundred"
-     | x <= 100000 = say(div x 1000) ++ if (x-(1000 * div x 1000)) >= 100 then " thousand " ++  say(x - (1000 * div x 1000)) else if (x-(1000 * div x 1000)) > 0 then " thousand " ++  say(x - (1000 * div x 1000)) else " thousand"
+
+    -- if smaller then 1000 (ex 343) we do 343 - 3 * 100 = 300 then return REST 43 (we add and keywoard for certain situations)
+     | x < 1000 = say(div x 100)
+        ++ if (x-(100 * div x 100)) > 0 then " hundred and " ++ say(x - (100 * div x 100)) else " hundred"
+
+    -- we add the and keywoard when the difference with the thousand is less then 100
+     | x <= 100000 = say(div x 1000)
+        ++ if (x-(1000 * div x 1000)) >= 100 then " thousand " ++ say(x - (1000 * div x 1000)) 
+        else if (x-(1000 * div x 1000)) > 0 then " thousand and " ++  say(x - (1000 * div x 1000)) 
+        else " thousand"
+
+    -- big numbers are very basic once again and follow the basic rule withoud ands because there are no millions
      | x < 1000000 = say(div x 100000) ++ " hundred " ++ say(x - (100000 * div x 100000))
 
 -- DEBUG MODE WHICH GIVES REST VALUES
