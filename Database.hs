@@ -51,7 +51,7 @@ getAge x = x
 
 --filter (\a -> age a >= 20 && age a < 30) students 1.5.6.4
 
--- nog te doen 1.5.6.5
+--sum(map age students) opdracht 1.5.6.5
 
 --filter (\s -> favouriteCourse s = "Functional Programming") students 1.5.6.6
 
