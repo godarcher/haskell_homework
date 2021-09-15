@@ -51,7 +51,8 @@ say x
 
     -- big numbers get an extra end when the REST is more then thousand (two hundred and nine thousand)
      | x < 1000000 = say(div x 100000) ++ " hundred " 
-         ++ if (x-(100000 * div x 100000)) >= 1000 then "and " ++ say(x - (100000 * div x 100000)) else say(x - (100000 * div x 100000))
+        ++ if (x-(100000 * div x 100000)) >= 1000 then "and " ++ say(x - (100000 * div x 100000))
+        else say(x - (100000 * div x 100000))
 
 -- DEBUG MODE WHICH GIVES REST VALUES
 -- say x 
@@ -60,8 +61,3 @@ say x
 --     | x < 10000 = say ((div x 1000)) ++ " thousand "   ++ " REST3 " ++ show(x - (1000 * (div x 1000))) ++ say(x - (1000 * (div x 1000)))
 --     | x < 100000 = say((div x 1000))++ " thousand " ++ " REST4 " ++ show(x - (1000 * (div x 1000)))  ++ say(x - (1000 *  (div x 1000)))
 --     | x < 1000000 = say((div x 100000)) ++ " hundred "  ++ " REST5 " ++ show(x - (100000 * (div x 100000))) ++ say(x - (100000 * (div x 100000)))
-
--- 434953
--- four hundred rest 34953
--- thirtyfour thousand rest 953
--- zero rest 9
