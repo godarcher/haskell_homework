@@ -5,14 +5,15 @@ import Data.Char
 -- !Exercise 2.5.1
 --Returnss true when lower of a equals Lower of b
 (~~) :: String -> String -> Bool
-a ~~ b = map toLower a == map toLower b 
+a ~~ b = map toLower a == map toLower b
 
---reverseCase :: String -> String
---TODO make mape of char variant
+-- !Exercise 2.5.2
+reverseCase :: String -> String
+reverseCase = map reverseCaseC
 
---reverseCaseC :: Char -> Char 
-a = toUpper(a)
---TODO FINISH THIS
+reverseCaseC :: Char -> Char
+reverseCaseC a = if isLower a then toUpper a else toLower a
+
 
 --shift :: Int -> Char -> Char
 
