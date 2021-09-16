@@ -2,7 +2,11 @@ module Char where
 
 import Data.Char
 
---(~~) :: String -> String -> Bool
+-- !Exercise 2.5.1
+--Returnss true when lower of a equals Lower of b
+(~~) :: String -> String -> Bool
+a ~~ b = map toLower a == map toLower b 
+
 
 --reverseCase :: String -> String
 
