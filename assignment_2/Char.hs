@@ -19,13 +19,9 @@ reverseCaseC a = if isLower a then toUpper a else toLower a
 
 --caesar :: Int -> String -> String
 
-input :: String -> String -> Bool
-input x y  
-    | x == y = True
-    -- | otherwise = False if (x ~~ y) then True else False
+shift :: Int -> Char -> Char
+shift x y  = toEnum(fromEnum y + x)
 
-reverseCase :: String -> String
-reverseCase = map (\c -> if c >= 'a' && c <= 'z' then toUpper c else toLower c)
 
 
 msg :: String
