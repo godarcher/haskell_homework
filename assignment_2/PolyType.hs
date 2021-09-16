@@ -23,4 +23,4 @@ f11 x y = get 0
 -- f10 is ad hoc polymorphic, you can not add everything into it, you need another implementation for strings or chars
 -- f11 is parametric polymorphic, because we don't care about the type, it is the same for any type
 
--- ?F8 is ad hoc, but depends on the ord(a), is ord defined for everything? then parametric otherwise ord
+-- ?F8 is ad hoc, but depends on the ord(a), is ord defined for everything? then parametric otherwise ad hoc
