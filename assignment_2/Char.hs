@@ -15,12 +15,10 @@ reverseCaseC :: Char -> Char
 reverseCaseC a = if isLower a then toUpper a else toLower a
 
 
---shift :: Int -> Char -> Char
-
---caesar :: Int -> String -> String
-
 shift :: Int -> Char -> Char
-shift x y  = toEnum(fromEnum y + x)
+shift x y 
+    | fromEnum y + x <= 90 = toEnum(fromEnum y + x)
+    | otherwise =  if fromEnum y -25 + x >= 90 then shift (x-25) y else toEnum(fromEnum y -25 + x)
 
 
 
