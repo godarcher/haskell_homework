@@ -7,8 +7,12 @@ import Data.Char
 (~~) :: String -> String -> Bool
 a ~~ b = map toLower a == map toLower b 
 
-
 --reverseCase :: String -> String
+--TODO make mape of char variant
+
+--reverseCaseC :: Char -> Char 
+a = toUpper(a)
+--TODO FINISH THIS
 
 --shift :: Int -> Char -> Char
 
