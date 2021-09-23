@@ -1,6 +1,7 @@
 module Uniq where
+import Data.Set
 
---uniq :: (Eq a) => [a] -> [a]
+-- ! exercise 3.5
+uniq :: Eq a => [a] -> [a]
 uniq [] = [] --Base Case
-uniq [a] = [a] --Singleton case
-uniq (x:xs) = [10] --TODO: use group here for more then 1 element case???
+uniq (x:xs) = x : uniq (dropWhile (== x) xs)
