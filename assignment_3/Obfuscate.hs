@@ -31,6 +31,8 @@ buildWord (x:xs) word      -- ? In all other cases:
 
 -- ! This function iterates over the words in the list
 --cambridgeWord :: String -> String
---cambridgeWord "" = "" -- ? Base case: Empty words stay empty words
+--cambridgeWord "" = "" -- * Base case: Empty words stay empty words
 cambridgeWord (x:xs) word -- ? In all other cases:
        | x == head word || x == last word = word : [x] : cambridgeWord xs ""
+       | otherwise = word : [x] : cambridgeWord xs "" --TODO implement scrambling for these letters
+       -- ! https://stackoverflow.com/questions/14692059/how-to-shuffle-a-list
