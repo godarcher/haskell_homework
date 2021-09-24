@@ -11,15 +11,16 @@ meme = "According to research at Cambridge university, it doesn't matter\
        \ be a total mess and you can still read it without a problem. This is\
        \ because we do not read every letter by it self but the word as a wohle."
 
-wordToken :: String -> [String]
-wordToken "" = [] -- empty list
-wordToken str = helper str "" -- start helper with empty current word
-    where helper :: String -> String -> [String]
-          -- when the entire string is consumed
-          helper "" ""      = [] -- if no current word, append nothing
-          helper "" current = [current] -- if current word, append this to the list
-          -- otherwise
-          helper (x:xs) current
-              | x == ',' || x == '.' = current : [x] : helper xs "" -- add comma or fullstop as extra word
-              | x == ' '             = current : helper xs "" -- but skip on whitespaces
-              | otherwise            = helper xs (current ++ [x]) -- if no seperator, just continue building up the current word
+-- ! This function is made to generate the actual string list
+toWords :: String -> [String]
+toWords "" = []  -- * An empty string should result in an empty list
+toWords s = buildWord s "" -- ? An non empty string should be converted
+
+-- ! This function is made to build a word, it does all the hard work 
+buildWord :: String -> String -> [String]
+buildWord "" ""   = []     -- ? If there is no word, append nothing to list (emtpy set)
+buildWord "" word = [word] -- ? If there is a word, append to list (singleton set)
+buildWord (x:xs) word      -- ? In all other cases:
+       | x == ',' || x == '.' = word : [x] : buildWord xs ""  -- * Handle punctuation marks seperately
+       | x == ' '             = word : buildWord xs "" -- * skip whitespace
+       | otherwise            = buildWord xs (word ++ [x]) -- * continue 
