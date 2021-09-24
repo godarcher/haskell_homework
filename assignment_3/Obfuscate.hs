@@ -24,3 +24,13 @@ buildWord (x:xs) word      -- ? In all other cases:
        | x == ',' || x == '.' = word : [x] : buildWord xs ""  -- * Handle punctuation marks seperately
        | x == ' '             = word : buildWord xs "" -- * skip whitespace
        | otherwise            = buildWord xs (word ++ [x]) -- * continue 
+
+-- ! This function builds a text from scrambled words
+-- cambridge :: String -> String
+-- cambridge: map cambridgeWord buildWord meme
+
+-- ! This function iterates over the words in the list
+--cambridgeWord :: String -> String
+--cambridgeWord "" = "" -- ? Base case: Empty words stay empty words
+cambridgeWord (x:xs) word -- ? In all other cases:
+       | x == head word || x == last word = word : [x] : cambridgeWord xs ""
