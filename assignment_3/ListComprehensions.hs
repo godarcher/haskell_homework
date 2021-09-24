@@ -4,9 +4,6 @@ import Data.List
 
 makeEveryCombination as bs = [ (a,b) | a <- as, b <- bs ] -- make a combination of every possible letter that's possible (type string string)
 
-hah :: a -> a
-hah x = x
-
 makeCopy n y   = [ y | i <- [1..n] ] -- makes a copy of a number the amount of times you ask for it. (type string string)
 
 getLettersOfString n xs  = [ x | (i,x) <- zip [0..] xs, i < n ] --gives back the number of first letters that you request back (type number number)
