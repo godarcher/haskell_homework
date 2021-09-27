@@ -29,13 +29,12 @@ buildWord (x:xs) word      -- ? In all other cases:
        | x == ' '             = word : buildWord xs "" -- * skip whitespace
        | otherwise            = buildWord xs (word ++ [x]) -- * continue 
 
--- ! This function builds a text from scrambled words
--- cambridge :: String -> String
--- cambridge: map cambridgeWord buildWord meme
+cambridge :: String -> String
+cambridge: map cambridgeWord buildWord meme
 
 -- ! This function iterates over the words in the list
---cambridgeWord :: String -> String
---cambridgeWord "" = "" -- * Base case: Empty words stay empty words
+cambridgeWord :: String -> String
+cambridgeWord "" = "" -- * Base case: Empty words stay empty words
 cambridgeWord (x:xs) word -- ? In all other cases:
        | x == head word || x == last word = word : [x] : cambridgeWord xs ""
        | otherwise = word : [x] : cambridgeWord xs "" --TODO implement scrambling for these letters
@@ -44,26 +43,3 @@ cambridgeWord (x:xs) word -- ? In all other cases:
 -- A random seed to make results reproducable (scientific method)
 seed :: Int
 seed = 3
-
--- A randomly chosen, program-scoped constant from the range [1 .. 10]
-randomInt :: Foldable t => Int -> t a -> Int
-randomInt x y
-       | (x * 2 + 1) < length y && (x * 2 + 1) >= 0 = x * 2 + 1
-       | x == length y = x
-       | x - 1 < length y && x - 1 >= 0 = x - 1
-
-seed :: Int
-seed = 3
-
--- Divides the list in half
-divideList :: [a] -> ([a], [a])
-divideList list = splitAt ((length list) `div` 2) list
-
-randomizeList :: Eq a => [a] -> [a]
-randomizeList list =
-  let lists = (divideList list) in
-    if (length list) > 1
-    then if (randomInt > 5)
-    then (randomizeList (fst lists) ++ randomizeList (snd lists))
-    else (randomizeList (snd lists) ++ randomizeList (fst lists))
-    else list
