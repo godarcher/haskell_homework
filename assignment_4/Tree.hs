@@ -1,4 +1,5 @@
 module Tree where
+import Control.Arrow (ArrowChoice(right))
 
 data Tree a = Leaf | Node a (Tree a) (Tree a)
   deriving Show
@@ -41,15 +42,39 @@ insert x (Node a left right)
 fromList :: (Ord a) => [a] -> Tree a --insert een lijst in de tree
 fromList = foldr insert Leaf
 
-delete x Leaf = Leaf
-delete x (Node a left right)
-  | x < a = Node a (delete x left) right --if smaller delete from the left
-  | x > a = Node a left (delete x right) --if bigger delete from the right
-  | x == a = remove x a -- implement actual removal here
-  
+-- delete :: Ord a => a -> Tree a -> Tree a
+-- delete x Leaf = Leaf
+-- delete x t@(Node a left right) = if member x t
+--   then 
+--     if x > a then Node a left (delete x right) --if bigger delete from the right
+--     else
+--         if x < a then Node a (delete x left) right --if smaller delete from the left
+--         else remove x t -- if correct size actually remove it
+--   else t
+
+-- remove :: Ord a => Tree a -> a -> Tree a
+-- remove (Node a left right) 
+--   | left == Leaf = right 
+--   | right == Leaf = left
+--   | otherwise = Node (mostLeft right) left (update right)
+
+-- mostLeft :: Tree a -> a
+-- mostLeft (Node x Leaf _) = x
+-- mostLeft (Node x left _) = mostLeft left
+
+-- update :: Ord a => Tree a -> Tree a
+-- update Leaf = Leaf
+-- update t@(Node a left right)
+--   | a == mostLeft t = delete a t 
+--   | a < mostLeft t = Node a left (update right)
+--   | a > mostLeft t = Node a (update left) right
 {----------- exercise 4.5 -------------}
 
 --inOrder :: Tree a -> [a]
+inorder :: (Ord a) => Tree a -> [a]
+inorder Leaf = []
+inorder (Node a left right) = inorder left ++ [a] ++ inorder right
+
 --fromAscList :: [a] -> Tree a
 --breadthFirst :: Tree a -> [a]
 
