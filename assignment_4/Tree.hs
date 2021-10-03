@@ -38,11 +38,15 @@ insert x (Node a left right)
 
 --delete :: (Ord a) => a -> Tree a -> Tree a
 
-
 fromList :: (Ord a) => [a] -> Tree a --insert een lijst in de tree
-fromList x = foldr insert Leaf x
+fromList = foldr insert Leaf
 
-
+delete x Leaf = Leaf
+delete x (Node a left right)
+  | x < a = Node a (delete x left) right --if smaller delete from the left
+  | x > a = Node a left (delete x right) --if bigger delete from the right
+  | x == a = remove x a -- implement actual removal here
+  
 {----------- exercise 4.5 -------------}
 
 --inOrder :: Tree a -> [a]
