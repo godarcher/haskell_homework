@@ -1,6 +1,8 @@
 module FunList where
 
---compose :: [a -> a] -> (a -> a)
+compose :: [a -> a] -> (a -> a)
+--compose [] =  
+compose (x:xs) y = x(compose xs y)
 
 --compose' :: [a -> a] -> (a -> a)
 
