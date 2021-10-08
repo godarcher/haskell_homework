@@ -1,15 +1,12 @@
 module Unfold where
 
-import Data.List (unfoldr)
+import Data.List (unfoldr, (++))
+import Data.Char ( Char, intToDigit )
 import Prelude hiding (take,zip,(++))
 
-bits 0 = [0]
-bits n = reverse (helper n)
+bits :: Int -> [Int]
+bits = unfoldr (\x -> if x==0 then Nothing else Just(mod x 2, div x 2))
 
-helper 0 = []
-helper n | n `mod` 2 == 1 = 1 : helper (n `div` 2)
-         | even n = 0 : helper (n `div` 2)
-         
 -- bits :: Int -> [Int]
 -- zip :: [a] -> [b] -> [(a,b)]
 -- take :: Int -> [a] -> [a]
