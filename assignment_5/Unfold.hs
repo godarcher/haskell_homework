@@ -3,6 +3,13 @@ module Unfold where
 import Data.List (unfoldr)
 import Prelude hiding (take,zip,(++))
 
+bits 0 = [0]
+bits n = reverse (helper n)
+
+helper 0 = []
+helper n | n `mod` 2 == 1 = 1 : helper (n `div` 2)
+         | even n = 0 : helper (n `div` 2)
+         
 -- bits :: Int -> [Int]
 -- zip :: [a] -> [b] -> [(a,b)]
 -- take :: Int -> [a] -> [a]
