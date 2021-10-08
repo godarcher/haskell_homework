@@ -15,8 +15,11 @@ zip _      _      = []
 -- take :: Int -> [a] -> [a]
 
 -- ! normal primes
-primes :: [Integer]
-primes = sieve [2..] where
+-- might be interesting: https://gist.github.com/jnape/4366618
+
+primes = unfoldr helper
+helper :: [Integer]
+helper = sieve [2..] where
            sieve (p:xs) = p : sieve [ n | n <- xs, n `mod` p > 0 ]
 
 apo :: (t -> Either [a] (a, t)) -> t -> [a]
