@@ -3,8 +3,8 @@ import Data.Char
 import Data.Function
 import qualified Data.Map as M
 
-wordFrequency :: String -> [(String,Int)]
-wordFrequency  = map (\x->(head x,length x)) . group . sort . words
+--wordFrequency :: String -> [(String,Int)]
+wordFrequency =  map (\x -> (head x,length x)) . group . sort . filter ((>2) . length) . words
 
 --mostFrequentOfLength :: Int -> String -> ??
 
