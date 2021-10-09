@@ -3,8 +3,11 @@ import Data.Char
 import Data.Function
 import qualified Data.Map as M
 
---wordFrequency :: String -> [(String,Int)]
-wordFrequency =  map (\x -> (head x,length x)) . group . sort . filter ((>2) . length) . words
+-- ! 5.8.1
+wordFrequency n = map (\x -> (head x, length x)) . group . filter ((>n-1) . length) . sortBy (flip compare) . words
+
+-- ! 5.8.2
+mostFrequentOfLength = map (\x -> (head x, length x)) . group . sort . words
 
 --mostFrequentOfLength :: Int -> String -> ??
 
@@ -21,5 +24,5 @@ wordFrequency =  map (\x -> (head x,length x)) . group . sort . filter ((>2) . l
  - (The -O flag turns on optimizations)
  -}    
 main :: IO ()
-main = onStdin $ wordFrequency  -- change this to run a different function from the commandline
+main = onStdin $ wordFrequency 3 -- change this to run a different function from the commandline
   where onStdin f = getContents >>= (mapM_ print . f . filter (\x->isAlphaNum x || isSpace x))
