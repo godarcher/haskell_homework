@@ -22,4 +22,4 @@ foo n = compose (map (*) [1..n]) 1
 -- (1*(2*(3*(4*(5*(1)))))), which results in 120
 
 foldr' :: (a -> b -> b) -> b -> [a] -> b
-foldr' step empty = 
+foldr' f x l = compose (map f l) x
