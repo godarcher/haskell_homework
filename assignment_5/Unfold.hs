@@ -13,7 +13,24 @@ zip (a:as) (b:bs) = (a,b) : zip as bs
 zip _      _      = []
 --[ (x, y) | x <- xs | y <- ys ]
 
--- take :: Int -> [a] -> [a]
+first :: [a] -> [(Int, a)]
+first [] = []
+first x = second x 1
+
+second :: [a] -> Int -> [(Int, a)]
+second [] _ = []
+second (x:xs) i = (i, x) : second xs (i+1)
+
+index :: [(Int, a)] -> [a]
+index [] = []
+index ((i,x):xs) = x : index xs
+
+take :: Int -> [a] -> [a]
+take k _
+    | k <= 0 = []
+take _ [] = []
+take a y = index (takeWhile (\ (x,y) -> x<=a) (first y))
+
 primes = sieve [2..]
 sieve (p:xs) = p : sieve [x | x <- xs, x `mod` p /= 0 ]
 
