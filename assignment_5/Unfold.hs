@@ -25,12 +25,6 @@ index :: [(Int, a)] -> [a]
 index [] = []
 index ((i,x):xs) = x : index xs
 
-take :: Int -> [a] -> [a]
-take k _
-    | k <= 0 = []
-take _ [] = []
-take a y = index (takeWhile (\ (x,y) -> x<=a) (first y))
-
 primes = sieve [2..]
 sieve (p:xs) = p : sieve [x | x <- xs, x `mod` p /= 0 ]
 
@@ -50,6 +44,18 @@ myappend :: [a] -> [a] -> [a]
 myappend [] x = x
 myappend (x:xs) y = x : myappend xs y
 
--- (++) :: [a] -> [a] -> [a]
--- insert :: (Ord a) => a -> [a] -> [a]
--- unfoldrApo :: (t -> Maybe (a, t)) -> t -> [a]
+(++) :: [a] -> [a] -> [a]
+(++) x y = apo f(x,y)
+    where
+        f :: ([a],[a]) -> Either [a] (a,([a],[a]))
+        f([],y) = Left y
+        f(x:xs, y) = Right(x,(xs, y))
+
+
+insert :: (Ord a) => a -> [a] -> [a]
+insert y x = apo f(y,x)
+  where
+    f(y,[]) = Left [y]
+    f(y, x:xs)
+     | y>=x = Right (x,(y,xs))
+     | otherwise = Left (y:x:xs)
