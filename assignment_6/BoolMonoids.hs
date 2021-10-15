@@ -5,6 +5,9 @@ import Data.Monoid
 newtype All = All { getAll :: Bool }
         deriving (Eq, Ord, Read, Show, Bounded)
 
+instance Semigroup Monoids.All where
+    Monoids.All f <> Monoids.All g = Monoids.All (<*> (&&) f g)
+    
 instance Monoid Monoids.All where
         mempty = Monoids.All True
         Monoids.All x `mappend` Monoids.All y = Monoids.All (x && y)
@@ -13,7 +16,7 @@ instance Monoid Monoids.All where
 newtype Any = Any { getAny :: Bool }
         deriving (Eq, Ord, Read, Show, Bounded)
 
-instance Monoid Any where
+instance Monoid Monoids.Any where
         mempty = Monoids.Any False
         Monoids.Any x `mappend` Monoids.Any y = Monoids.Any (x || y)
 --newtype ... = ...
