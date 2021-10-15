@@ -11,7 +11,7 @@ instance Monoid Monoids.All where
 
 -- | Boolean monoid under disjunction.
 newtype Any = Any { getAny :: Bool }
-        deriving (Eq, Ord, Read, Show, Bounded, Generic)
+        deriving (Eq, Ord, Read, Show, Bounded)
 
 instance Monoid Any where
         mempty = Monoids.Any False
