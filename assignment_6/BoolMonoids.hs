@@ -1,7 +1,9 @@
 module Monoids where
 import Data.Monoid
 
--- ! CONJUCTION MONOID
+-- ! EXERCISE 6.5.1
+
+-- ? CONJUCTION MONOID
 newtype Conj = Conj { getConj :: Bool }
         deriving (Eq, Ord, Read, Show, Bounded)
 
@@ -12,7 +14,7 @@ instance Monoid Monoids.Conj where
         mempty = Monoids.Conj True
         Monoids.Conj x `mappend` Monoids.Conj y = Monoids.Conj (x && y) -- * Actual Conjunction
 
--- ! DISJUNCTION MONOID
+-- ? DISJUNCTION MONOID
 newtype Disj = Disj { getDisj :: Bool }
         deriving (Eq, Ord, Read, Show, Bounded)
 
@@ -22,8 +24,8 @@ instance Semigroup Monoids.Disj where
 instance Monoid Monoids.Disj where
         mempty = Monoids.Disj False
         Monoids.Disj x `mappend` Monoids.Disj y = Monoids.Disj (x || y) -- * Actual Disjunction
---newtype ... = ...
 
---instance Semigroup ... where
-
---instance Monoid ... where
+-- ! EXERCISE 6.5.2
+-- ? mconcat = foldr (<>) mempty
+-- * For conjunction --> mconcat = foldr (<>) Monoids.Conj True
+-- * For Disjunction --> mconcat = foldr (<>) Monoids.Disj False
