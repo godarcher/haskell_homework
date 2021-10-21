@@ -26,7 +26,11 @@ instance Rankable Int where
   rank = genericRank
 
 instance Rankable Char where
-  rank = genericRank 
-
-instance Rankable Integer where 
   rank = genericRank
+
+instance Rankable Integer where
+  rank = genericRank
+
+-- ! Exercise 6.6.3
+instance Rankable Bool where
+  rank k = [[t | (True, t) <- k], [f | (False, f) <- k]]
