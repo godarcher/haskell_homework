@@ -36,5 +36,10 @@ instance Rankable Bool where
   rank k = [[t | (True, t) <- k], [f | (False, f) <- k]]
 
 -- ! Exercise 6.6.4
-instance (Rankable key1, Rankable key2) => Rankable (key1, key2) where 
-  rank = 
+instance (Rankable kеy1, Rankable kеy2) => Rankable (kеy1, kеy2) where
+  rank = concatenate rank . rank . Data.List.map assoc where
+    assoc :: ((k1, k2), a) -> (k1, (k2, a))
+    assoc ((k1,k2),a) = (k1,(k2,a))
+
+concatenate :: (Foldable t1, Foldable t2) => (a1 -> t2 a2) -> t1 a1 -> [a2]
+concatenate f = Data.List.foldr (flip (Data.List.foldr (:)) . f) []
