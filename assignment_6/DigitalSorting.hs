@@ -7,6 +7,7 @@ import Data.Either
 
 -- ! our extra input
 import Data.Map
+import qualified Data.Bifunctor
 class Rankable key where
   rank :: [(key,a)] -> [[a]]
 
@@ -46,4 +47,9 @@ concatenate f = Data.List.foldr (flip (Data.List.foldr (:)) . f) []
 
 -- ! Exercise 6.6.5
 instance (Rankable key) => Rankable (Maybe key) where
-   rank k = ([n | (Nothing, n) <- k]) : rank [(Just key2, j) | (key2, j) <- k, isJust key2]
+  rank k = ([n | (Nothing, n) <- k]) : rank [(Just key2, g) | (key2, g) <- k, isJust key2]
+
+-- ! Exercise 6.6.6
+instance (Rankable kеy) => Rankable [kеy] where
+  rank = rank . Data.List.map (Data.Bifunctor.first uncons)
+
