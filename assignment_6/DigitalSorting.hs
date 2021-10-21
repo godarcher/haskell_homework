@@ -46,4 +46,4 @@ concatenate f = Data.List.foldr (flip (Data.List.foldr (:)) . f) []
 
 -- ! Exercise 6.6.5
 instance (Rankable key) => Rankable (Maybe key) where
-   rank k = ([n | (key1, n) <- k, isNothing key1]) : rank [(Just key2, j) | (key2, j) <- k, isJust key2]
+   rank k = ([n | (Nothing, n) <- k]) : rank [(Just key2, j) | (key2, j) <- k, isJust key2]
