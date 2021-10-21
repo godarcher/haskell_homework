@@ -36,14 +36,14 @@ instance Monoid Monoids.ExclusiveOr where
         Monoids.ExclusiveOr x `mappend` Monoids.ExclusiveOr y = Monoids.ExclusiveOr (x /= y)
 
 -- ? NOT EXCLUSIVE OR 
-newtype NotExclusiveOr = BotExclusiveOr Bool
+newtype NotExclusiveOr = NotExclusiveOr Bool
 
 instance Semigroup Monoids.NotExclusiveOr where 
-        (Monoids.ExclusiveOr f) <> (Monoids.ExclusiveOr g) = Monoids.ExclusiveOr ((/=) f g)
+        (Monoids.NotExclusiveOr f) <> (Monoids.NotExclusiveOr g) = Monoids.NotExclusiveOr ((==) f g)
 
-instance Monoid Monoids.ExclusiveOr where 
-        mempty = Monoids.ExclusiveOr False
-        Monoids.ExclusiveOr x `mappend` Monoids.ExclusiveOr y = Monoids.ExclusiveOr (x /= y)
+instance Monoid Monoids.NotExclusiveOr where 
+        mempty = Monoids.NotExclusiveOr True
+        Monoids.NotExclusiveOr x `mappend` Monoids.NotExclusiveOr y = Monoids.NotExclusiveOr (x == y)
 
 
 -- ! EXERCISE 6.5.2
