@@ -33,6 +33,7 @@ instance Semigroup Monoids.ExclusiveOr where
 
 instance Monoid Monoids.ExclusiveOr where 
         mempty = Monoids.ExclusiveOr False
+        Monoids.ExclusiveOr x `mappend` Monoids.ExclusiveOr y = Monoids.ExclusiveOr (x /= y)
 
 -- ! EXERCISE 6.5.2
 -- ? mconcat = foldr (<>) mempty
