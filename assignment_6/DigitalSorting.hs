@@ -34,3 +34,7 @@ instance Rankable Integer where
 -- ! Exercise 6.6.3
 instance Rankable Bool where
   rank k = [[t | (True, t) <- k], [f | (False, f) <- k]]
+
+-- ! Exercise 6.6.4
+instance (Rankable key1, Rankable key2) => Rankable (key1, key2) where 
+  rank = 
