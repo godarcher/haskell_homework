@@ -43,3 +43,7 @@ instance (Rankable kеy1, Rankable kеy2) => Rankable (kеy1, kеy2) where
 
 concatenate :: (Foldable t1, Foldable t2) => (a1 -> t2 a2) -> t1 a1 -> [a2]
 concatenate f = Data.List.foldr (flip (Data.List.foldr (:)) . f) []
+
+-- ! Exercise 6.6.5
+instance (Rankable key) => Rankable (Maybe key) where
+   rank k = ([n | (key1, n) <- k, isNothing key1]) : rank [(Just key2, j) | (key2, j) <- k, isJust key2]
