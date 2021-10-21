@@ -50,3 +50,5 @@ instance Monoid Monoids.NotExclusiveOr where
 -- ? mconcat = foldr (<>) mempty
 -- * For conjunction --> mconcat = foldr (<>) Monoids.Conj True
 -- * For Disjunction --> mconcat = foldr (<>) Monoids.Disj False
+-- * For Xor --> mconcat = foldr (<>) Monoids.ExclusiveOr False 
+-- * For notXor --> mconcat = foldr (<>) Monoids.NotExclusiveOr True
