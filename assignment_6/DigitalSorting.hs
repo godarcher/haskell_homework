@@ -22,6 +22,13 @@ digitalSort = digitalSortOn id
 genericRank :: (Ord key) => [(key,a)] -> [[a]]
 genericRank key = [b|(a, b) <- toList (fromListWith (++) [(a, [b]) | (a, b) <- key])]
 
+-- ! Exercise 6.6.7
+-- * This is higher because functions need to be higher 
+-- ? We use a lambda expression to add an extra key then do rank 
+-- ? This method will lead to removal of one key, leaving one intact
+rankWithKey :: Rankable key => [(key, b)] -> [[(key, b)]]
+rankWithKey l = rank ( Data.List.map (\(k, b) -> (k, (k, b))) l)
+
 -- ! Exercise 6.6.2
 instance Rankable Int where
   rank = genericRank
@@ -52,4 +59,3 @@ instance (Rankable key) => Rankable (Maybe key) where
 -- ! Exercise 6.6.6
 instance (Rankable kеy) => Rankable [kеy] where
   rank = rank . Data.List.map (Data.Bifunctor.first uncons)
-
