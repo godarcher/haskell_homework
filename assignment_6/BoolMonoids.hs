@@ -35,6 +35,17 @@ instance Monoid Monoids.ExclusiveOr where
         mempty = Monoids.ExclusiveOr False
         Monoids.ExclusiveOr x `mappend` Monoids.ExclusiveOr y = Monoids.ExclusiveOr (x /= y)
 
+-- ? NOT EXCLUSIVE OR 
+newtype NotExclusiveOr = BotExclusiveOr Bool
+
+instance Semigroup Monoids.NotExclusiveOr where 
+        (Monoids.ExclusiveOr f) <> (Monoids.ExclusiveOr g) = Monoids.ExclusiveOr ((/=) f g)
+
+instance Monoid Monoids.ExclusiveOr where 
+        mempty = Monoids.ExclusiveOr False
+        Monoids.ExclusiveOr x `mappend` Monoids.ExclusiveOr y = Monoids.ExclusiveOr (x /= y)
+
+
 -- ! EXERCISE 6.5.2
 -- ? mconcat = foldr (<>) mempty
 -- * For conjunction --> mconcat = foldr (<>) Monoids.Conj True
