@@ -1,27 +1,27 @@
 module Monoids where
 import Data.Monoid
 
--- | Boolean monoid under conjunction.
-newtype All = All { getAll :: Bool }
+-- ! CONJUCTION MONOID
+newtype Conj = Conj { getConj :: Bool }
         deriving (Eq, Ord, Read, Show, Bounded)
 
-instance Semigroup Monoids.All where
-    Monoids.All f <> Monoids.All g = Monoids.All ((&&) f g)
+instance Semigroup Monoids.Conj where
+    Monoids.Conj f <> Monoids.Conj g = Monoids.Conj ((&&) f g)
 
-instance Monoid Monoids.All where
-        mempty = Monoids.All True
-        Monoids.All x `mappend` Monoids.All y = Monoids.All (x && y)
+instance Monoid Monoids.Conj where
+        mempty = Monoids.Conj True
+        Monoids.Conj x `mappend` Monoids.Conj y = Monoids.Conj (x && y) -- * Actual Conjunction
 
--- | Boolean monoid under disjunction.
-newtype Any = Any { getAny :: Bool }
+-- ! DISJUNCTION MONOID
+newtype Disj = Disj { getDisj :: Bool }
         deriving (Eq, Ord, Read, Show, Bounded)
 
-instance Semigroup Monoids.Any where
-    Monoids.Any f <> Monoids.Any g = Monoids.Any ((||) f g)
+instance Semigroup Monoids.Disj where
+    Monoids.Disj f <> Monoids.Disj g = Monoids.Disj ((||) f g)
 
-instance Monoid Monoids.Any where
-        mempty = Monoids.Any False
-        Monoids.Any x `mappend` Monoids.Any y = Monoids.Any (x || y)
+instance Monoid Monoids.Disj where
+        mempty = Monoids.Disj False
+        Monoids.Disj x `mappend` Monoids.Disj y = Monoids.Disj (x || y) -- * Actual Disjunction
 --newtype ... = ...
 
 --instance Semigroup ... where
