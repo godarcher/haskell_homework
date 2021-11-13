@@ -24,6 +24,7 @@ inorder'(skewed x) with an high enough x
 we witness that the second function is faster
 and more efficient
 -}
+-- TODO add equatorial reasoning
 
 -- ? The new main ordering function
 inorder' :: Tree a -> [a]
