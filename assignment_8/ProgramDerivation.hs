@@ -29,8 +29,14 @@ and more efficient
 inorder' :: Tree a -> [a]
 inorder' t = inorderCat t []
 
--- TODO: make me more efficient, too
 elems :: Tree a -> [a]
 elems Leaf = []
 elems (Node x lt rt) = x : elems lt ++ elems rt
 
+-- ! Exercise 3.7.3
+elemsCat :: Tree a-> [a] -> [a]
+elemsCat Leaf xs = xs
+elemsCat (Node x l r) xs = xs ++ elemsCat r (elemsCat l [x])
+
+elems' :: Tree a -> [a]
+elems' inp = elemsCat inp []
