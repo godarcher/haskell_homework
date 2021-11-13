@@ -17,7 +17,12 @@ inorderCat Leaf xs = xs
 inorderCat (Node x l r) xs = inorderCat l [x] ++ inorderCat r xs
 
 {-
-TODO: do tests here
+-- ! Exercise 3.7.2
+Yes it is actually more efficient.
+When comparing inorder(skewed x) with
+inorder'(skewed x) with an high enough x
+we witness that the second function is faster
+and more efficient
 -}
 
 -- ? The new main ordering function
