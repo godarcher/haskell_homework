@@ -13,8 +13,8 @@ inorder (Node x lt rt) = inorder lt ++ [x] ++ inorder rt
 
 -- ! The new upgraded helper function
 inorderCat :: Tree a -> [a] -> [a]
-inorderCat [] xs = xs
-inorderCat (Node l a r) xs = inorderCat l [a] ++ inorderCat r xs
+inorderCat Leaf xs = xs
+inorderCat (Node x l r) xs = inorderCat l [x] ++ inorderCat r xs
 
 {-
 TODO: do tests here
