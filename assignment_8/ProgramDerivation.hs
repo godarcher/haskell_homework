@@ -11,6 +11,16 @@ inorder :: Tree a -> [a]
 inorder Leaf = []
 inorder (Node x lt rt) = inorder lt ++ [x] ++ inorder rt
 
+{-
+for inorderCat Leaf, we doe the same as inorder but then with xs
+[] + xs (definition of inorder)
+
+inorderCat (Node x l r) xs = inorderCat l [x] ++ inorderCat r xs
+---- IH states that the equivalence holds for both the left (l)
+and the right tree
+
+as inorder inp ++ [] = inorder inp
+-}
 -- ! The new upgraded helper function
 inorderCat :: Tree a -> [a] -> [a]
 inorderCat Leaf xs = xs
@@ -28,12 +38,26 @@ and more efficient
 
 -- ? The new main ordering function
 inorder' :: Tree a -> [a]
-inorder' t = inorderCat t []
+inorder' inp = inorderCat inp []
 
 elems :: Tree a -> [a]
 elems Leaf = []
 elems (Node x lt rt) = x : elems lt ++ elems rt
 
+{-
+elemsCat inp xs = xs ++ elems t 
+      ----- the definition of elems
+= xs ++ [x] ++ elems l ++ elems r 
+      ----- (++) associativity
+= xs ++ ([x] + elems l) ++ elems r 
+      ----- IH
+= xs ++ (elemsCat l [x]) ++ elems r
+      ----- (++) associativity
+= xs ++ ((elemsCat l [x]) ++ elems r)
+      ----- IH
+= xs ++ elemsCat r  (elemsCat l [x])
+
+-}
 -- ! Exercise 3.7.3
 elemsCat :: Tree a-> [a] -> [a]
 elemsCat Leaf xs = xs
