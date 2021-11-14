@@ -13,7 +13,7 @@ import qualified GHC.Num.BigNat as Q.E.D
 
 To prove: map f (tips t) = tips (mapBtree f t) for all f,t
 
-Base case (Tip x)
+Base case (Tip x):
 = tips (mapBtree f Tip(x))
     
 = tips (Tip(f x))
@@ -23,6 +23,25 @@ Base case (Tip x)
 = map f x 
         ----tips(Tip(x)) = f as stated above
 = map f (tips (Tip x))
+
 Q.E.D. 
 
-Inductive case (Bin as bs)
+Inductive Hypothesis:
+map f (tips t) = tips (mapBtree f t)
+
+Inductive case (Bin as bs):
+= tips (mapBtree f (Bin as bs))
+        ---- we write it out
+= tips (Bin mapBtree f as Bin mapBtree f bs)
+        ---- simplify by using Bin infront
+= tips (Bin (mapBtree f as) (mapBtree f bs)) 
+        ---- ++ associativity
+= tips (mapBtree f as) ++ tips (mapBtree f bs)
+IH
+= map f (tips as) ++ map f (tips bs)
+        ---- definition of map
+= map f (tips as ++ tips bs)
+        ---- ++ associativity
+= map f (tips (Bin as bs))
+
+Q.E.D.
