@@ -15,9 +15,13 @@ instance (Show a) => Show (Stream a) where
 from :: Integer -> Stream Integer
 from n = n :> from (n + 1)
 
---head :: Stream a -> a
+-- Get only the first element
+head :: Stream a -> a
+head (h :> _) = h
 
---tail :: Stream a -> Stream a
+-- Drop only the first element
+tail :: Stream a -> Stream a  
+tail (_ :> t) = t
 
 --repeat :: a -> Stream a
 
