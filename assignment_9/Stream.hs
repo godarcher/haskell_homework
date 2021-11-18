@@ -1,7 +1,8 @@
 module Stream where
 
 import qualified Data.List as List
-import Prelude hiding (head, tail, repeat, map, zipWith, filter, take, drop, concat, cycle, sum)
+-- Added zip to hiding
+import Prelude hiding (head, tail, repeat, map, zipWith, filter, take, drop, concat, cycle, sum, zip)
 
 data Stream a = a :> Stream a
 infixr 5 :>
@@ -62,13 +63,21 @@ nat, fib :: Stream Integer
 nat = 0 :> zipWith (+) nat (repeat 1)
 fib = 0 :> 1 :> zipWith (+) fib (tail fib)
 
--- | The stream of prime numbers.
+-- The stream of prime numbers.
 prime :: Stream Integer
 prime = cycle primes where
         primes = [a | a <- [2..], checkPrime a]
         checkPrime a = null [d | d <- [2..a-1], a `mod` d == 0]
 
---primetwins :: Stream (Integer,Integer)
+-- Checks wether two numbers are twins
+aretwins :: (Eq a, Num a) => (a, a) -> Bool
+aretwins (x, y) = y - x == 2
 
+-- Zip function implemented for streams
+zip :: Stream a -> Stream b -> Stream (a, b)
+zip = zipWith (,)
+
+primetwins :: Stream (Integer, Integer)
+primetwins = filter aretwins (zip prime (tail prime))
 -- ! Exercise 9.4.6
 --combine :: Stream a -> Stream a -> Stream a
