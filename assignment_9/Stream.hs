@@ -49,24 +49,26 @@ filter a (x :> xs)
 -- keeps on skipping element for infinity 
 
 -- ! Exercise 9.4.4
---toList :: Stream a -> [a]
+-- Convert a stream into a list
+tolist :: Stream a -> [a]
+tolist (a :> x) = a : tolist x
 
+-- Cycle converts lists to streams
 cycle :: [a] -> Stream a
 cycle xs = foldr (:>) (cycle xs) xs
---nat, fib :: Stream Integer
---nat = 0 :> zipWith (+) nat (repeat 1)
---fib = 0 :> 1 :> zipWith (+) fib (tail fib)
-fibS :: Stream Integer
-fibS = 0 :> (1 :> (f 0 1))
-    where f x y = (x+y) :> (f y (x+y))
+
+-- ! Exercise 9.4.5
+nat, fib :: Stream Integer
+nat = 0 :> zipWith (+) nat (repeat 1)
+fib = 0 :> 1 :> zipWith (+) fib (tail fib)
 
 -- | The stream of prime numbers.
-primeS :: Stream Integer
-primeS = cycle primeList
-    where
-        primeList = [x | x <- [2..], isPrime x]
-        isPrime x = null [d | d <- [2..x-1], x `mod` d == 0]
+prime :: Stream Integer
+prime = cycle primes where
+        primes = [a | a <- [2..], checkPrime a]
+        checkPrime a = null [d | d <- [2..a-1], a `mod` d == 0]
 
 --primetwins :: Stream (Integer,Integer)
 
+-- ! Exercise 9.4.6
 --combine :: Stream a -> Stream a -> Stream a
