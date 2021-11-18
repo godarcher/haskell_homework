@@ -77,7 +77,9 @@ aretwins (x, y) = y - x == 2
 zip :: Stream a -> Stream b -> Stream (a, b)
 zip = zipWith (,)
 
+-- Function that returns a stream of all prime twins
 primetwins :: Stream (Integer, Integer)
 primetwins = filter aretwins (zip prime (tail prime))
+
 -- ! Exercise 9.4.6
 --combine :: Stream a -> Stream a -> Stream a
