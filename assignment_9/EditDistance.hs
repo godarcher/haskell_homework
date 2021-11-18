@@ -13,16 +13,15 @@ naiveEditDistance xs ys = distance xs ys
   cost x y = if x==y then 0 else 1
 
 -- ! Version 1 of editdistance implemented
+-- We implemented the subfunction (Int, Int) inside the where clause
 editDistance :: String -> String -> Int
-editDistance x y = distArray ! (m, n)
+editDistance x y = distArray ! (length x, length y)
   where
-    distArray = listArray ((0, 0), (m, n)) [compute i j | i <- [0 .. m], j <- [0 .. n]]
-    compute 0 j = j
-    compute i 0 = i
-    compute i j
-      | x !! (i - 1) == y !! (j - 1) = distArray ! (i - 1, j - 1)
-      | otherwise = 1 + minimum (map (distArray !) [(i , j - 1),
-                                              (i - 1, j),
-                                              (i - 1, j - 1)])
-    m = length x
-    n = length y
+    distArray = listArray ((0, 0), (length x, length y)) [calcDist a b | a <- [0 .. length x], b <- [0 .. length x]]
+    calcDist 0 b = b
+    calcDist a 0 = a
+    calcDist a b
+      | x !! (a - 1) == y !! (b - 1) = distArray ! (a - 1, b - 1)
+      | otherwise = 1 + minimum (map (distArray !) [(a , b - 1),
+                                              (a - 1, b),
+                                              (a - 1, b - 1)])
