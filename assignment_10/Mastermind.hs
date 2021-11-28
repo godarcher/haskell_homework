@@ -43,17 +43,7 @@ checker :: UserInput -> Bool
 checker try = all d t try (length try == size)
                 where d b = (b>0) && (b<=options)
 
--- check for keyword to stop playing
-getUi :: IO UserInput
-getUi = do inp <- getLine
--- keyword to stop
-if inp == "stop"
-    -- if stop return empty list
-    then return [0]
-    -- if not stop return actual list
-    else return (map stringtoint (words inp))
-
--- convert string to int
+-- convert an string to int
 stringtoint :: String -> Int
 stringtoint i =
   case reads i of
@@ -61,8 +51,41 @@ stringtoint i =
     -- everything else gives error (-1)
     _         -> -1
 
+-- this function checks the amount of red matches (full matches)
+redMatches :: Code -> UserInput -> [Int]
+-- if either of the two is empty, return empty
+redMatches [] _ = []
+redMatches _ [] = []
+-- else (both non empty, we compare them per element)
+redMatches (a:as) (b:bs)
+    |a == b = a : redMatches as bs
+    |otherwise = redMatches as bs
+
+-- calculate amount of non full matches, and then remove full matches from it		 
+white solution guess = length (whiteMatch solution guess) - black solution guess
+
+
+partialMatches in1 in2 = partialMatch (sort in1) (sort in2)
+
+partialMatch :: Code -> UserInput -> [Int]
+-- if either of the two is empty, return empty
+partialMatch [] _ = []
+partialMatch _ [] = []
+-- else (both non empty, we compare them per element)
+partialMatch (a:as) (b:bs)
+  | a == b = a : partialMatch as bs
+  | a < b = partialMatch as (b:bs)
+  | a > b = partialMatch bs (a:as)
+
 --scoreAttempt :: (Ord a) => [a] -> [a] -> ???
 scoreAttempt code guess = error "implement me"
+
+-- userInp function
+getUi :: IO UserInput
+getUi = do input <- getLine
+if input == "quit"
+    then return [0]
+    else return (map stringtoint (words input))
 
 -- Some test cases from: https://www.boardgamecapital.com/game_rules/mastermind.pdf
 test1, test2, test3, test4 :: Bool
@@ -71,22 +94,7 @@ test2 = scoreAttempt [1,2,3,4,2 :: Int] [5,6,3,3,7 :: Int] == (1,0)
 test3 = scoreAttempt [1,2,1,3,3 :: Int] [4,1,5,6,7 :: Int] == (0,1)
 test4 = scoreAttempt [4,1,5,6,7 :: Int] [1,2,1,3,3 :: Int] == (0,1)
 
-{---------------------- IO parts -------------------------------}
-
--- only here for example; you can remove these from your final file
-roll_d6 :: IO Int
-roll_d6 = randomRIO (1,6)
-
-roll_2d6 :: IO Int
-roll_2d6 = do
-  a <- roll_d6
-  b <- roll_d6
-  return (a + b)
-
---getCode :: ??? -> IO [Colour]
-
---playGame :: ??? -> IO ()
-
 main :: IO ()
 main = do
-  putStrLn "IMPLEMENT ME"
+  -- generate sol
+  sol <- randomsol
