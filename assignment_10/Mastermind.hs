@@ -8,7 +8,58 @@ import System.IO
 
 {---------------------- functional parts -------------------------------}
 
---data Colour = ...
+type UserInput = [Int]
+type Code = [Int]
+
+--data Colour = ... 
+options = 8
+size  = 4
+
+randomsol =
+  do
+    -- random initialization
+    rand <- getStdGen
+    -- 4 possible sizes
+    let fullc = take 4 (randoms rand)
+    -- 8 possible colors
+    return (map ((+1) . (`mod` 8)) fullc)
+
+-- main user io function
+mainio :: IO UserInput
+mainio =
+  do
+    -- user io
+    putStr "Put in color "
+    -- flush output
+    hFlush stdout
+    -- get input from userinput function
+    inp <- getUi
+    -- check if valid input and output if needed
+    if (inp == [0]) || checker inp then return inp else (do putStrLn "input does not match conditions" mainio)
+
+-- check if input satisfies conditions                                                      
+checker :: UserInput -> Bool
+-- we need two things, size and option conditions being satisfied
+checker try = all d t try (length try == size)
+                where d b = (b>0) && (b<=options)
+
+-- check for keyword to stop playing
+getUi :: IO UserInput
+getUi = do inp <- getLine
+-- keyword to stop
+if inp == "stop"
+    -- if stop return empty list
+    then return [0]
+    -- if not stop return actual list
+    else return (map stringtoint (words inp))
+
+-- convert string to int
+stringtoint :: String -> Int
+stringtoint i =
+  case reads i of
+    [(a, "")] -> a
+    -- everything else gives error (-1)
+    _         -> -1
 
 --scoreAttempt :: (Ord a) => [a] -> [a] -> ???
 scoreAttempt code guess = error "implement me"
