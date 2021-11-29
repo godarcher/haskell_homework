@@ -62,60 +62,84 @@ roll_d6 :: IO Int
 roll_d6 = randomRIO (1,8)
 
 -- get list of random colors
-generateSolution :: IO [Int]
-generateSolution = do
+genSolution :: IO [Int]
+genSolution = do
   a <- roll_d6
   b <- roll_d6
   c <- roll_d6
   d <- roll_d6
   return [a, b, c, d :: Int]
 
--- randomsol =
---   do
---     -- random initialization
---     rand <- getStdGen
---     -- 4 possible sizes
---     let fullc = take 4 (randoms rand)
---     -- 8 possible colors
---     return (map ((+1) . (`mod` 8)) fullc)
+-- ! Exercise 10.2.4 till 10.2.5
+oneplay :: (Show t, Num t) => Code -> t -> IO ()
+oneplay sol plays =
+  do
+    -- get userinput
+    inp <- userInp
 
+    -- check exit condition
+    if inp == [0]
+       then do putStrLn $ "The game has ended... The right answer was: " ++ show sol
 
+       else do
+              -- check userinput with resuld and give feedback based on it
+              let result = scoreAttempt sol inp
+              putStrLn (playfeedback result)
 
--- -- main user io function
--- mainio :: IO UserInput
--- mainio =
---   do
---     -- user io
---     putStr "Put in color "
---     -- flush output
---     hFlush stdout
---     -- get input from userinput function
---     inp <- getUi
---     -- check if valid input and output if needed
---     if (inp == [0]) || checker inp then return inp else (do putStrLn "input does not match conditions" mainio)
+              -- check if game is won, and terminate it if needed
+              if win result
+                 then do putStrLn "You cracked the code, congratulations"
+                 else oneplay sol (plays+1)
+            where win(_,_,b) = b
 
--- check if input satisfies conditions                                                      
--- checker :: UserInput -> Bool
--- -- we need two things, size and option conditions being satisfied
--- checker try = all d t try (length try == 4)
---                 where d b = (b>0) && (b<=8)
+-- gives feedback based on round
+playfeedback :: (Int, Int, Bool) -> String
+playfeedback (r,w,_) = show r ++ " full matches, " ++ show w ++ " partial matches"
+
+userInp :: IO UserInput
+userInp  =
+  do
+    -- ask for code
+    putStr "please enter a code: "
+    -- clean out
+    hFlush stdout
+
+    -- fetch user input
+    inp <- getGuess
+
+    -- check if invalid user input
+    if (inp == [0]) || checker inp then return inp else (do putStrLn "input does not satisfy conditions"
+                                                            userInp)
+-- this function gets a users guess
+getGuess :: IO UserInput
+-- get userinput (ui)
+getGuess = do ui <- getLine
+              -- we could possibly make more stop keywords here
+              if ui == "stop"
+                 -- return zero list if stop, otherwise convert
+                 then return [0]
+                 else return (map stringtoint (words ui))
+
+-- check if input is valid
+checker :: UserInput -> Bool
+-- we use constraints colors and width here
+checker inp = all c inp && (length inp == 4)
+                where c a = (a>0) && (a<=8)
 
 -- convert an string to int
--- stringtoint :: String -> Int
--- stringtoint i =
---   case reads i of
---     [(a, "")] -> a
---     -- everything else gives error (-1)
---     _         -> -1
+stringtoint :: String -> Int
+stringtoint i =
+  case reads i of
+    -- remove empties from list
+    [(a, "")] -> a
+    -- everything else gives error (-1)
+    _         -> -1
 
--- userInp function
---getUi :: IO UserInput
--- getUi = do input <- getLine
--- if input == "quit"
---     then return [0]
---     else return (map stringtoint (words input))
-
---main :: IO ()
---main = do
-  -- generate sol
-  --sol <- randomsol
+-- ! Exercise 10.2.6
+main :: IO ()
+main =
+  do
+    -- get solution
+    sol <- genSolution 
+    -- play game with solution
+    oneplay sol 1               
