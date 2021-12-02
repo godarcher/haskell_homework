@@ -1,7 +1,7 @@
 module Huffman where
 
 import Data.List
-import Stream (tolist)
+import Stream
 
 data Btree a = Tip a | Bin (Btree a) (Btree a)
   deriving Eq -- Show is done manually
@@ -11,12 +11,9 @@ data Bit = O | I
 
 -----------------------------------------------------------------------
 
+-- Exercise 7.4
 frequencies :: (Ord a) => [a] -> [(a,Int)]
-frequencies = error "TODO: IMPLEMENT ME"
-
-freqList = map.tolist . map.fromListWith (+) . map (, 1)
-
-freq stri =  map (\x -> (head x, length x)) $ group $ sort stri
+frequencies stri = map (\x -> (head x, length x)) $ group $ sort stri
 -----------------------------------------------------------------------
 
 huffman :: [(a,Int)] -> Btree a
