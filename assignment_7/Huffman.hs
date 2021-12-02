@@ -1,6 +1,7 @@
 module Huffman where
 
 import Data.List
+import Stream (tolist)
 
 data Btree a = Tip a | Bin (Btree a) (Btree a)
   deriving Eq -- Show is done manually
@@ -13,6 +14,9 @@ data Bit = O | I
 frequencies :: (Ord a) => [a] -> [(a,Int)]
 frequencies = error "TODO: IMPLEMENT ME"
 
+freqList = map.tolist . map.fromListWith (+) . map (, 1)
+
+freq stri =  map (\x -> (head x, length x)) $ group $ sort stri
 -----------------------------------------------------------------------
 
 huffman :: [(a,Int)] -> Btree a
@@ -39,7 +43,7 @@ backus1978 =
   \still higher level ones in a style not possible in conventional languages."
 
 thanksForAllTheFish :: String
-thanksForAllTheFish = 
+thanksForAllTheFish =
   "It is an important and popular fact that things are not always what\n\
   \they seem. For instance, on the planet Earth, man had always\n\
   \assumed that he was more intelligent than dolphins because he had\n\
@@ -78,7 +82,7 @@ testHuffman = display mismatches
   where
   mismatches = filter (\(x,y)->huffman x /= y) testSet
   (==>) x y = (x,y) -- local syntactic sugar for tuples
-  testSet = [ [(' ',1)] 
+  testSet = [ [(' ',1)]
             ==> Tip ' '
             , [(' ',1),('d',1)]
             ==> Bin (Tip ' ') (Tip 'd')
@@ -107,7 +111,7 @@ instance (Show a) => Show (Btree a) where
   show = indent "\n"
     where
     indent _   (Tip x)   = "Tip " ++ show x
-    indent _   (Bin l@(Tip _) r@(Tip _)) 
+    indent _   (Bin l@(Tip _) r@(Tip _))
                          = "Bin (" ++ show l ++ ") (" ++ show r ++ ")"
     indent pre (Bin l r) = "Bin (" ++ indent (pre++"     ") l ++ ")" ++ pre ++
                            "    (" ++ indent (pre++"     ") r ++ ")"
