@@ -15,6 +15,13 @@ instance Functor Result where
 
 -- Exercise 11.5.3
 instance Applicative Result where
+  --pure :: a -> Result a
+  pure = Okay
+  --(<*>) :: Result a1 -> p -> Result a2
   Error [x] <*> _ = Error [x]
+  --(<*>) :: Functor f => Result (a -> b) -> f a -> f b
+  (Okay f) <*> something = fmap f something
   
+
+
 
