@@ -13,6 +13,8 @@ instance Functor Result where
 -- Exercise 11.5.2
 -- fmap :: p -> Result a1 -> Result a2
 
+-- Exercise 11.5.3
+instance Applicative Result where
+  Error [x] <*> _ = Error [x]
+  
 
---instance Applicative Result where
---  ...
