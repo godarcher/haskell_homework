@@ -1,11 +1,11 @@
 module Huffman where
 
 import Data.List
+import Data.Function ( on )
 import Stream
 
 data Btree a = Tip a | Bin (Btree a) (Btree a)
   deriving Eq -- Show is done manually
-
 data Bit = O | I
   deriving (Eq,Ord,Show)
 
@@ -17,8 +17,30 @@ frequencies stri = map (\x -> (head x, length x)) $ group $ sort stri
 -----------------------------------------------------------------------
 
 huffman :: [(a,Int)] -> Btree a
-huffman = error "TODO: IMPLEMENT ME"
+huffman = convert . helper
 
+
+convert :: Btree (a,Int) -> Btree a
+convert (Tip (x, _)) = Tip x
+convert (Bin x y) = Bin (convert x) (convert y)
+
+
+helper :: [(a, Int)] -> Btree (a, Int)
+helper = build . map (\(x,y) -> Tip (x,y)) . sortFrequencies
+
+build :: [Btree (a, Int)] -> Btree(a, Int)
+build [t] = t
+build (z:y:xs) = build $  insertBy (compare `on` weight) (merge z y) xs
+
+merge :: Btree a -> Btree a -> Btree a
+merge = Bin
+
+sortFrequencies :: [(a,Int)] -> [(a,Int)]
+sortFrequencies = sortBy (compare `on` snd)
+
+weight :: Btree (a, Int) -> Int
+weight (Tip (_,x)) = x
+weight (Bin x y) = weight x + weight y
 -----------------------------------------------------------------------
 
 --encode :: (Ord a) => Btree a -> [a] -> [Bit]
