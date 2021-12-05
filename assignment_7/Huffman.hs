@@ -2,6 +2,7 @@ module Huffman where
 
 import Data.List
 import Data.Function ( on )
+import qualified Data.Map
 import Stream
 
 data Btree a = Tip a | Bin (Btree a) (Btree a)
@@ -12,43 +13,56 @@ data Bit = O | I
 -----------------------------------------------------------------------
 
 -- Exercise 7.4
-frequencies :: (Ord a) => [a] -> [(a,Int)]
-frequencies stri = map (\x -> (head x, length x)) $ group $ sort stri
+frequencies :: Ord a => [a] -> [(a, Int)]
+frequencies stri = Data.List.map (\x -> (head x, length x)) $ group $ sort stri
 -----------------------------------------------------------------------
 
+-- Exercise 7.5
+-- our Huffman main function uses a variety of helper funtions
 huffman :: [(a,Int)] -> Btree a
-huffman = convert . helper
+huffman = switch . builder
 
+-- switch is an Converter
+switch :: Btree (a, b) -> Btree a
+switch (Tip (a, _)) = Tip a
+switch (Bin a b) = Bin (switch a) (switch b)
 
-convert :: Btree (a,Int) -> Btree a
-convert (Tip (x, _)) = Tip x
-convert (Bin x y) = Bin (convert x) (convert y)
+heavyness :: Num b => Btree (a, b) -> b
+heavyness (Tip (_,a)) = a
+heavyness (Bin a b) = heavyness a + heavyness b
 
+setup :: [Btree (a, Int)] -> Btree (a, Int)
+setup[lis] = lis
+setup (a:b:cs) = setup $  insertBy (compare `on` heavyness) (Bin a b) cs
 
-helper :: [(a, Int)] -> Btree (a, Int)
-helper = build . map (\(x,y) -> Tip (x,y)) . sortFrequencies
+builder :: [(a, Int)] -> Btree (a, Int)
+builder = setup . Data.List.map (\(a,b) -> Tip (a,b)) . sorter
 
-build :: [Btree (a, Int)] -> Btree(a, Int)
-build [t] = t
-build (z:y:xs) = build $  insertBy (compare `on` weight) (merge z y) xs
+-- sort frequency on index in alphabet
+sorter :: [(a,Int)] -> [(a,Int)]
+sorter = sortBy (compare `on` snd)
 
-merge :: Btree a -> Btree a -> Btree a
-merge = Bin
-
-sortFrequencies :: [(a,Int)] -> [(a,Int)]
-sortFrequencies = sortBy (compare `on` snd)
-
-weight :: Btree (a, Int) -> Int
-weight (Tip (_,x)) = x
-weight (Bin x y) = weight x + weight y
 -----------------------------------------------------------------------
 
---encode :: (Ord a) => Btree a -> [a] -> [Bit]
+-- Exercise 7.6
+
+-- converts a character list into a bit sequenc
+encode :: (Foldable t, Ord k) => Btree k -> t k -> [Bit]
+encode a = concatMap (\b -> Data.Map.fromList (enc a) Data.Map.! b)
+
+-- helper of below func
+helpenc :: Btree a -> [Bit] -> [(a, [Bit])]
+helpenc (Tip x) xs = [(x, xs)]
+helpenc (Bin x y) xs = helpenc x (xs ++ [O]) ++ helpenc y (xs ++ [I])
+
+-- create ass0ciatstion li
+enc :: Btree a -> [(a, [Bit])]
+enc (Tip x) = [(x, [O])]
+enc (Bin x y) = sortBy (compare `on` length . snd) (helpenc x [O] ++ helpenc y [I])
 
 -----------------------------------------------------------------------
 
 --decode :: (Ord a) => Btree a -> [Bit] -> [a]
-
 -----------------------------------------------------------------------
 
 backus1978 :: String
