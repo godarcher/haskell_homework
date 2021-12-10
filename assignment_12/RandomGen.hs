@@ -6,10 +6,14 @@ import RandomState
 
 genRandInteger :: (Integer,Integer) -> RandomState Integer
 genRandInteger (x,y) = do
-  seed <- get 
-  let (out, generated) = randomR (x,y) seed
+  seed <- get
+  let (out, generated) = genme (x,y) seed
   put generated
   return out
+  
+-- actual logic is inside the helper function
+genme :: (Random a, RandomGen g) => (a, a) -> g -> (a, g)
+genme (x, y) = randomR(x, y)
 
 roll_2d6 :: RandomState Integer
 roll_2d6 = do
