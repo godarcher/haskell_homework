@@ -4,11 +4,12 @@ import Control.Monad
 import System.Random
 import RandomState
 
---genRandIntegerIO :: (Integer,Integer) -> IO Integer
-
 genRandInteger :: (Integer,Integer) -> RandomState Integer
-genRandInteger (a,b) = do
-  error "TODO: implement me"
+genRandInteger (x,y) = do
+  seed <- get 
+  let (out, generated) = randomR (x,y) seed
+  put generated
+  return out
 
 roll_2d6 :: RandomState Integer
 roll_2d6 = do
