@@ -27,7 +27,7 @@ execState st g = snd (runState st g)
 
 --place a "state transformation" function directly
 state :: (GlobalState -> (a, GlobalState)) -> RandomState a
-state f = St f
+state = St
 
 instance Functor RandomState where
   fmap f sx = St $ \s1 -> let (x,s2) = runState sx s1
@@ -36,7 +36,7 @@ instance Functor RandomState where
 -- boilerplate instance of Applicative
 instance Applicative RandomState where
   pure      = return
-  m1 <*> m2 = do { f <- m1; x <- m2; return (f x) }
+  m1 <*> m2 = do { f <- m1; f <$> m2; }
 
 instance Monad RandomState where
   return x = St $ \s -> (x, s)
@@ -51,4 +51,4 @@ class (Monad m) => MonadState m where
 
 instance MonadState RandomState where
   get   = St $ \s -> (s,s)
-  put s = St $ \_ -> ((), s)
+  put s = St $ const ((), s)
