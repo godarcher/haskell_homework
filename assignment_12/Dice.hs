@@ -30,7 +30,7 @@ evalM (Max x y) inp = do
   right <- evalM y inp
   -- actual output
   return (max left right)
-  
+
 -- if we want min
 evalM (Min x y) inp = do
   -- first inp
@@ -66,6 +66,17 @@ evalM (Rem x y) inp = do
   right <- evalM y inp
   -- actual output
   return (left - right)
+
+evalRIO :: Expr -> IO Integer
+-- interactively ask the user to enter the result of a physical, actual dice roll
+evalRIO inp = evalM inp (\x -> randomRIO(1,x) >>= userinp) 
+
+-- our helper function
+userinp :: Show b => b -> IO b
+userinp a = do 
+  putStr "you have rolled: ";
+  print a ;
+  return a
 
 --evalM :: Expr -> DiceAction IO -> IO Integer             -- prototype
 --evalM :: (Monad m) => Expr -> DiceAction m -> m Integer  -- final version
