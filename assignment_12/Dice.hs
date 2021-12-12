@@ -6,11 +6,66 @@ import RandomState
 data Expr = Lit Integer | Dice Integer 
           | Expr :+: Expr
           | Min Expr Expr | Max Expr Expr
+          -- adding and removing -/+
+          | Add Expr Expr | Rem Expr Expr
   deriving (Show)
 
 infixl 6 :+: 
 
 type DiceAction m = Integer -> m Integer
+
+evalM :: Monad m => Expr -> (Integer -> m Integer) -> m Integer
+
+-- Lit just returns the factual number
+evalM (Lit intg) inp = return intg
+
+-- The actual dice
+evalM (Dice intg) inp = inp intg
+
+-- if we want max (max max max super max max max)
+evalM (Max x y) inp = do
+  -- first inp
+  left <- evalM x inp
+  -- second inp
+  right <- evalM y inp
+  -- actual output
+  return (max left right)
+  
+-- if we want min
+evalM (Min x y) inp = do
+  -- first inp
+  left <- evalM x inp
+  -- second inp
+  right <- evalM y inp
+  --actual output
+  return (min left right)
+
+-- if we want :+:
+evalM (x :+: y) inp = do
+  -- first inp
+  left <- evalM x inp
+  -- second inp
+  right <- evalM y inp
+  -- actual output
+  return (left + right)
+
+-- If we want to add
+evalM (Add a b) da = do
+  --first inp
+  left <- evalM a da
+  -- second inp
+  right <- evalM b da
+  -- actual output
+  return (left `div` right)
+
+-- If we want to remove
+evalM (Rem x y) inp = do
+  -- first inp
+  left <- evalM x inp
+  -- second inp
+  right <- evalM y inp
+  -- actual output
+  return (left - right)
 
 --evalM :: Expr -> DiceAction IO -> IO Integer             -- prototype
 --evalM :: (Monad m) => Expr -> DiceAction m -> m Integer  -- final version
